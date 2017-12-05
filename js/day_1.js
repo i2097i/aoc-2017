@@ -26,5 +26,5 @@ function day1() {
     previousValue = currentValue;
   });
 
-  $('#day-1').html("<strong>Part 1:</strong> " + firstResult + "</br><strong>Part 2:</strong> " + secondResult);
+  appendToDiv(1, firstResult, secondResult);
 }

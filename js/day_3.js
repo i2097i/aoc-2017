@@ -11,16 +11,50 @@ function day3() {
 
   // mapping is massive object key'd in the format of {xy: {value: v, x: xPos, y: yPos}}
   var mapping = {};
-  while(value <= day3_input) {
-    if (value == day3_input) {
-      console.log([value, xPos, yPos, (Math.abs(xPos) + Math.abs(yPos))]);
-      $('#day-3').html("<strong>Part 1:</strong> " + (Math.abs(xPos) + Math.abs(yPos)) + " steps" + "</br><strong>Part 2:</strong> " + "");
+  var part1Result = null;
+  var part2Result = null;
+  while(!part1Result || !part2Result) {
+    if (part1Result == null && value == day3_input) {
+      part1Result = (Math.abs(xPos) + Math.abs(yPos));
     }
-    mapping[xPos.toString() + yPos.toString()] = {
-      value: value,
-      x: xPos,
-      y: yPos
-    };
+
+    // Stop building mapper once we have part2Result
+    if (!part2Result) {
+      // Calculate part 2 value
+      var part2Sum = 0;
+      if (Object.keys(mapping).length < 2) {
+        part2Sum = 1;
+      } else {
+        _.each([yPos + 1, yPos, yPos - 1], function(y) {
+          _.each([xPos - 1, xPos, xPos + 1], function(x) {
+            // (x-1,y+1) (x,y+1) (x+1,y+1)
+            // (x-1,y)   (x,y)   (x+1,y)
+            // (x-1,y-1) (x,y-1) (x+1,y-1)
+            
+            var entry = mapping[x.toString() + y.toString()];
+            if (entry) {
+              part2Sum += entry.value;
+            }
+          });
+        });
+      }
+
+      mapping[xPos.toString() + yPos.toString()] = {
+        value: part2Sum,
+        x: xPos,
+        y: yPos
+      };
+
+      if (part2Sum > day3_input) {
+        part2Result = part2Sum;
+      }
+    } else if (mapping) {
+      mapping = null;
+    }
+
+    if (part1Result && part2Result) {
+      appendToDiv(3, part1Result, part2Result);
+    }
 
     value++;
 

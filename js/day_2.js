@@ -1,5 +1,5 @@
 function day2() {
-  var rows = _.map(day2_input.replace(/\n\s*/g,"\n").split("\n"), function(line) {
+  var rows = _.map(day2_input.split("\n"), function(line) {
     return _.map(line.replace(/  /g, " ").split(" "), function(l) { return parseInt(l);});
   });
 
@@ -23,6 +23,5 @@ function day2() {
       });
     });
   });
-  
-  $('#day-2').html("<strong>Part 1:</strong> " + firstSum + "</br><strong>Part 2:</strong> " + secondSum);
+  appendToDiv(2, firstSum, secondSum);
 }
