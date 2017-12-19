@@ -1,6 +1,7 @@
 $(document).ready(function() {
-  day1();
-  day2();
-  day3();
-  day4();
+  _.each([day1, day2, day3, day4, day5], function(func) {
+    setTimeout(function() {
+      func();
+    }, 0);
+  });
 });
