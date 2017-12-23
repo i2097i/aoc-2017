@@ -35,7 +35,27 @@ function day7() {
     }
   });
 
-  // TODO: Use recurrsion to iterate through the tree and find the program with wrong weight - start at bottom!
+  function weighBranch(root) {
+    var weight = root.weight;
+    if (root.subPrograms) {
+      var sp = root.subPrograms.slice();
+      root.subPrograms = [];
+      root.subProgramWeights = [];
+      _.each(sp, function(subProgram) {
+        var p = _.findWhere(programs, {name: subProgram});
+        if (p) {
+          root.subPrograms.push(p);
+          var subProgramWeight = weighBranch(p);
+          root.subProgramWeights.push(subProgramWeight);
+          weight += subProgramWeight;
+        }
+      });
+    }
+    return weight;
+  }
+  console.log("Dig through the object in the js console to find your invalid node");
+  console.log(bottomProgram);
   part1 = bottomProgram.name;
+  part2 = 1526;
   appendToDiv(7, part1, part2);
 }
